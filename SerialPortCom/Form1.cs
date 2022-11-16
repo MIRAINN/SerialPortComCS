@@ -26,14 +26,9 @@ namespace SerialPortCom
             string[] ports = SerialPort.GetPortNames();
             cbComPort.Items.AddRange(ports);
             serialPort1.DtrEnable = false;
-            cbRtsEnable.Checked = false;
             serialPort1.RtsEnable = false;
-            cbDrtEnable.Checked = false;
-            btSendData.Enabled = false;
-            cbWrite.Checked = true;
             btOpen.Enabled = true;
             btClose.Enabled = false;
-            cbAlwaysUpdate.Checked = true;
             
             
         }
@@ -80,15 +75,8 @@ namespace SerialPortCom
         {
             if (serialPort1.IsOpen)
             {
-                dataOut = textBox1.Text;
-                if (cbWriteLine.Checked)
-                {
-                    serialPort1.WriteLine(dataOut);
-                }
-                else
-                {
-                    serialPort1.Write(dataOut);
-                }
+                byte[] buffer = { 0xA0, 0x01, 0x01, 0xA2 };
+                serialPort1.Write(buffer, 0 ,4);
             }
         }
 
@@ -97,173 +85,148 @@ namespace SerialPortCom
 
         }
 
-        private void cbDrtEnable_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbDrtEnable.Checked)
-            {
-                serialPort1.DtrEnable = true;
-                MessageBox.Show("DRT Enable", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-            }
-            else 
-            { 
-                serialPort1.DtrEnable = false; 
-            }
-        }
-
-        private void cbRtsEnable_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbRtsEnable.Checked) 
-            {
-             serialPort1.RtsEnable = true;
-             MessageBox.Show("RTS Enable", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                serialPort1.RtsEnable= false;
-            }
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text!="")
+            if (serialPort1.IsOpen)
             {
-                textBox1.Text = "";
+                byte[] buffer = { 0xA0, 0x01, 0x00, 0xA1 };
+                serialPort1.Write(buffer, 0, 4);
             }
         }
 
-        private void lbDataOutLength_Click(object sender, EventArgs e)
-        {
+        //private void lbDataOutLength_Click(object sender, EventArgs e)
+        //{
             
-        }
+        //}
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            int dataOutLength = textBox1.TextLength;
-            lbDataOutLength.Text = string.Format("{0:00}", dataOutLength);
-        }
+        //private void textBox1_TextChanged(object sender, EventArgs e)
+        //{
+        //    int dataOutLength = textBox1.TextLength;
+        //    lbDataOutLength.Text = string.Format("{0:00}", dataOutLength);
+        //}
 
         private void lbComPortStatus_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void cbUssingButton_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbUssingButton.Checked)
-            {
-                btSendData.Enabled = true;
-            }
-            else
-            {
-                btSendData.Enabled= false;
-            }
-        }
+        //private void cbUssingButton_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (cbUssingButton.Checked)
+        //    {
+        //        btUnlock.Enabled = true;
+        //    }
+        //    else
+        //    {
+        //        btUnlock.Enabled= false;
+        //    }
+        //}
 
-        private void cbWriteLine_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbWriteLine.Checked)
-            {
-                cbWrite.Checked = false;
+        //private void cbWriteLine_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (cbWriteLine.Checked)
+        //    {
+        //        cbWrite.Checked = false;
                 
                 
-            }
-        }
+        //    }
+        //}
 
-        private void cbWrite_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbWrite.Checked)
-            {
-                cbWriteLine.Checked = false;
+        //private void cbWrite_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (cbWrite.Checked)
+        //    {
+        //        cbWriteLine.Checked = false;
                 
-            }
-        }
+        //    }
+        //}
 
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (cbUssingEnter.Checked)
-            {
-                if (e.KeyCode==Keys.Enter)
-                {
-                    if (serialPort1.IsOpen)
-                    {
-                        dataOut = textBox1.Text;
-                        if (cbWriteLine.Checked)
-                        {
-                            serialPort1.WriteLine(dataOut);
-                        }
-                        else
-                        {
-                            serialPort1.Write(dataOut);
-                        }
-                    }
-                }
-            }
-        }
+        //private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (cbUssingEnter.Checked)
+        //    {
+        //        if (e.KeyCode==Keys.Enter)
+        //        {
+        //            if (serialPort1.IsOpen)
+        //            {
+        //                dataOut = textBox1.Text;
+        //                if (cbWriteLine.Checked)
+        //                {
+        //                    serialPort1.WriteLine(dataOut);
+        //                }
+        //                else
+        //                {
+        //                    serialPort1.Write(dataOut);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
      
 
-        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            //string input = serialPort1.ReadExisting(); 
-            //string playground = input;
-            //while (playground.Length > 0)
-            //{
-            //    int temp = Convert.ToInt32(playground.Substring(0, 2));
-            //    if (temp < 32)
-            //    {
-            //        temp = Convert.ToInt32(playground.Substring(0, 3));
-            //    }
-            //    result += (Convert.ToChar(temp)).ToString();
-            //    playground = playground.Substring(temp.ToString().Length, playground.Length - temp.ToString().Length);
-            //}
-            dataIn = serialPort1.ReadExisting();
-            this.Invoke(new EventHandler(ShowData));
+        //private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        //{
+        //    //string input = serialPort1.ReadExisting(); 
+        //    //string playground = input;
+        //    //while (playground.Length > 0)
+        //    //{
+        //    //    int temp = Convert.ToInt32(playground.Substring(0, 2));
+        //    //    if (temp < 32)
+        //    //    {
+        //    //        temp = Convert.ToInt32(playground.Substring(0, 3));
+        //    //    }
+        //    //    result += (Convert.ToChar(temp)).ToString();
+        //    //    playground = playground.Substring(temp.ToString().Length, playground.Length - temp.ToString().Length);
+        //    //}
+        //    dataIn = serialPort1.ReadExisting();
+        //    this.Invoke(new EventHandler(ShowData));
 
-        }
+        //}
 
-        private void ShowData(object sender, EventArgs e)
-        {
+        //private void ShowData(object sender, EventArgs e)
+        //{
             
-            if (cbAlwaysUpdate.Checked)
-            {
-                textBox2.Text = dataIn;
-            }
-            else
-            {
-                textBox2.Text += dataIn;
-            }
-        }
+        //    if (cbAlwaysUpdate.Checked)
+        //    {
+        //        textBox2.Text = dataIn;
+        //    }
+        //    else
+        //    {
+        //        textBox2.Text += dataIn;
+        //    }
+        //}
 
-        private void cbAlwaysUpdate_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbAlwaysUpdate.Checked)
-            {
-                cbAddToOldData.Checked = false;
+        //private void cbAlwaysUpdate_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (cbAlwaysUpdate.Checked)
+        //    {
+        //        cbAddToOldData.Checked = false;
 
-            }
-        }
+        //    }
+        //}
 
-        private void cbAddToOldData_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbAddToOldData.Checked)
-            {
-                cbAlwaysUpdate.Checked = false;
-            }
-        }
+        //private void cbAddToOldData_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (cbAddToOldData.Checked)
+        //    {
+        //        cbAlwaysUpdate.Checked = false;
+        //    }
+        //}
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            int dataInLength = textBox2.TextLength;
-            lbDataInLength.Text = string.Format("{0:00}", dataInLength);
-        }
+        //private void textBox2_TextChanged(object sender, EventArgs e)
+        //{
+        //    int dataInLength = textBox2.TextLength;
+        //    lbDataInLength.Text = string.Format("{0:00}", dataInLength);
+        //}
 
-        private void btClearDataIn_Click(object sender, EventArgs e)
-        {
-            if (textBox2.Text !="")
-            {
-                textBox2.Clear();
-            }
-        }
+        //private void btClearDataIn_Click(object sender, EventArgs e)
+        //{
+        //    if (textBox2.Text !="")
+        //    {
+        //        textBox2.Clear();
+        //    }
+        //}
     }   
 }
