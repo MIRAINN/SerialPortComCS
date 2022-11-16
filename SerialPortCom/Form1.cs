@@ -71,12 +71,16 @@ namespace SerialPortCom
             }
         }
 
-        private void btSendData_Click(object sender, EventArgs e)
+        private async void btSendData_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
             {
                 byte[] buffer = { 0xA0, 0x01, 0x01, 0xA2 };
                 serialPort1.Write(buffer, 0 ,4);
+                await Task.Delay(1000);
+                buffer[2] = 0x00;
+                buffer[3] = 0xA1;
+                serialPort1.Write(buffer, 0, 4);
             }
         }
 
@@ -86,11 +90,15 @@ namespace SerialPortCom
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
             {
-                byte[] buffer = { 0xA0, 0x01, 0x00, 0xA1 };
+                byte[] buffer = { 0xA0, 0x02, 0x01, 0xA3 };
+                serialPort1.Write(buffer, 0, 4);
+                await Task.Delay(1000);
+                buffer[2] = 0x00;
+                buffer[3] = 0xA2;
                 serialPort1.Write(buffer, 0, 4);
             }
         }

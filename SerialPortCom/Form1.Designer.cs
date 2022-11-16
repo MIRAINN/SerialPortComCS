@@ -260,13 +260,9 @@
             this.btUnlock.Name = "btUnlock";
             this.btUnlock.Size = new System.Drawing.Size(141, 55);
             this.btUnlock.TabIndex = 2;
-            this.btUnlock.Text = "Unlock";
+            this.btUnlock.Text = "Forward";
             this.btUnlock.UseVisualStyleBackColor = true;
             this.btUnlock.Click += new System.EventHandler(this.btSendData_Click);
-            // 
-            // serialPort1
-            // 
-            //this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
             // btLock
             // 
@@ -275,7 +271,7 @@
             this.btLock.Name = "btLock";
             this.btLock.Size = new System.Drawing.Size(141, 55);
             this.btLock.TabIndex = 4;
-            this.btLock.Text = "Lock";
+            this.btLock.Text = "Backward";
             this.btLock.UseVisualStyleBackColor = true;
             this.btLock.Click += new System.EventHandler(this.button1_Click);
             // 
